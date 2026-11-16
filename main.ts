@@ -32,6 +32,15 @@ class Main {
 
         console.clear();
 
+        // Una sola istanza: due processi sullo stesso profilo si bloccano a vicenda i dati di sessione
+        // (cookie/localStorage) e la seconda istanza si apre senza login. Un secondo avvio (es. da ES-DE)
+        // porta in primo piano la finestra già aperta.
+        if(!app.requestSingleInstanceLock()) {
+            app.quit();
+            return;
+        }
+        app.on('second-instance', () => this.renderer?.focusWindow());
+
         app.whenReady()
         .then(async () => {
             

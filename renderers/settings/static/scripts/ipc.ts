@@ -20,6 +20,19 @@ class IPC {
         return this.ipc.invoke('languageRequest').then(d => JSON.parse(d))
     }
 
+    /** Cierra la ventana de ajustes. */
+    public closeSettings(): void {
+        this.ipc.send('close');
+    }
+
+    /** Cierra la aplicación. */
+    public quitApp(): void {
+        // ytvQuit (gamepad.js) aspetta che i tasti del pad siano rilasciati prima di chiudere.
+        const quit = (window as any).ytvQuit;
+        if(typeof quit === 'function') quit();
+        else this.ipc.send('ytv:quit');
+    }
+
     public get settings(): DataModel {
         return this._settings;
     }

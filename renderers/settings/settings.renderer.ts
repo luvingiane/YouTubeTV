@@ -17,14 +17,16 @@ export class Settings {
 				titleBarStyle: 'hidden',
 				...(process.platform !== 'darwin' ? { titleBarOverlay: true }: {}),
 				width: 730,
-				height: 480,
+				height: 540,
 				title: 'Settings',
 				backgroundColor: '#181818',
 				frame: true,
 				webPreferences: {
 					contextIsolation: false,
 					nodeIntegration: true,
-					sandbox: false
+					sandbox: false,
+					// Permite navegar por los ajustes con el mando.
+					preload: join(__dirname, '../main/gamepad.js')
 				}
 			})
 
@@ -65,6 +67,15 @@ export class Settings {
 				main.persistence.data.DIAL.name = settings.DIAL.name;
 				main.persistence.data.background = settings.background;
 				main.persistence.data.userAgent.customUA = settings.userAgent.customUA;
+				main.persistence.data.startFullscreen = !!settings.startFullscreen;
+
+				// Anuncios y SponsorBlock: se aplican en caliente y se recarga la página para que el preload los relea.
+				const adBlockChanged = main.persistence.data.adBlock !== !!settings.adBlock;
+				const sponsorBlockChanged = main.persistence.data.sponsorBlock !== !!settings.sponsorBlock;
+				main.persistence.data.adBlock = !!settings.adBlock;
+				main.persistence.data.sponsorBlock = !!settings.sponsorBlock;
+				if(adBlockChanged) main.renderer.setAdBlock(main.renderer.features.adBlock);
+				if(adBlockChanged || sponsorBlockChanged) main.renderer.reloadPage();
 
 				// Si DIAL está activado.
 				if(settings.DIAL.enabled) {

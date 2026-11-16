@@ -14,6 +14,7 @@ import { app,
          session} from 'electron';
 import { DataModel } from '../../models/data.interface';
 import main from '../../main';
+import { registerSponsorBlock } from '../../utils/sponsorblock';
 
 export interface resolution {
 
@@ -90,11 +91,14 @@ export class Renderer {
                 console.log(err)
             }
 
-            if(main.DEVMODE) this.enableAdBlock();
-            
+            this.registerIpc();
+            registerSponsorBlock();
+            if(this.features.adBlock) this.setAdBlock(true);
+
             this.createWindow();
     
             this.listenWindowEvents();
+            this.listenFullscreenKeys();
     
             this.url = '__DFT__';
 
@@ -153,6 +157,9 @@ export class Renderer {
             data = { x, y, height: 1230, width: 720, fullscreen: false };
         }
 
+        // Pantalla completa al arrancar, si está activado en los ajustes.
+        if(main.persistence.data.startFullscreen) data.fullscreen = true;
+
         this.window = new BrowserWindow({
             minWidth: 1230,
             minHeight: 720,
@@ -166,6 +173,8 @@ export class Renderer {
                 nodeIntegration: true,
                 backgroundThrottling: false,
                 contextIsolation: false,
+                // Rimozione annunci dalle risposte API + SponsorBlock (vedi preload.js).
+                preload: join(__dirname, 'preload.js'),
                 //partition: `persist`,//:${Math.random().toString()}`,
                 autoplayPolicy: 'no-user-gesture-required',
                 plugins: true
@@ -307,14 +316,7 @@ export class Renderer {
      */
     private setAccelerators() {
 
-        globalShortcut.register('ctrl+s', () => {
-            if (this.settings) {
-                this.settings.destroy();
-                this.settings = null;
-            } else {
-                this.settings = new Settings();
-            }
-        })
+        globalShortcut.register('ctrl+s', () => this.toggleSettings())
 
         globalShortcut.register('ctrl+f', () => { this.fullScreen = !this.window.isFullScreen(); })
 
@@ -346,23 +348,95 @@ export class Renderer {
         
     }
 
-    private enableAdBlock() {
-        // Comprobación para que no se cuele el adblock en producción.
-        if(process.title.endsWith('Electron')) {
-            try {
-                const { ElectronBlocker } = require('@ghostery/adblocker-electron');
-                ElectronBlocker.fromPrebuiltAdsAndTracking(fetch)
-                .then((_:any) => {
-                    _.enableBlockingInSession(session.defaultSession);
-                })
-                .catch((err:any) => {
-                    console.error(err)
-                })
-            } catch(err) {
-                
-            }
+    /** Ajustes que lee el preload (anuncios / SponsorBlock). Las variables YTV_NO_* los fuerzan a desactivado. */
+    public get features(): { adBlock: boolean, sponsorBlock: boolean } {
+        const { adBlock, sponsorBlock } = main.persistence.data;
+        return {
+            adBlock:      adBlock      && !process.env.YTV_NO_ADBLOCK,
+            sponsorBlock: sponsorBlock && !process.env.YTV_NO_SPONSORBLOCK
+        };
+    }
 
+    private registerIpc() {
+        // El preload pregunta (de forma síncrona, antes de que cargue la página) qué funciones están activas.
+        ipcMain.on('ytv:features', (event) => { event.returnValue = this.features; });
+        // Botón "Salir" de los ajustes.
+        ipcMain.on('ytv:quit', () => { app.quit(); });
+        // Botón Select del mando.
+        ipcMain.on('ytv:toggle-settings', () => { this.toggleSettings(); });
+    }
+
+    /** Trae la ventana principal al frente (por ejemplo, ante un segundo intento de abrir la app). */
+    public focusWindow() {
+        if(!this.window) return;
+        if(this.window.isMinimized()) this.window.restore();
+        this.window.show();
+        this.window.focus();
+    }
+
+    /** Abre o cierra la ventana de ajustes. */
+    public toggleSettings() {
+        if (this.settings) {
+            this.settings.destroy();
+            this.settings = null;
+        } else {
+            this.settings = new Settings();
         }
+    }
+
+    /** Alterna pantalla completa con F11 o Alt+Enter, sin registrar atajos globales del sistema. */
+    private listenFullscreenKeys() {
+        this.window.webContents.on('before-input-event', (event, input) => {
+            if(input.type !== 'keyDown') return;
+            if(input.key === 'F11' || (input.alt && input.key === 'Enter')) {
+                event.preventDefault();
+                this.fullScreen = !this.window.isFullScreen();
+            }
+        });
+    }
+
+    /** Bloqueador de red activo (si se ha creado alguna vez). */
+    private blocker: any = null;
+
+    /**
+     * Activa o desactiva el bloqueo de anuncios y rastreadores a nivel de red.
+     * Solo red: sin scriptlets ni cosmética inyectados en la página (rompían el reproductor de YouTube TV).
+     * Los anuncios propios de YouTube los elimina el preload.
+     */
+    public setAdBlock(enabled: boolean) {
+
+        const sess = session.defaultSession;
+
+        if(!enabled) {
+            this.blocker?.disableBlockingInSession(sess);
+            return;
+        }
+
+        if(this.blocker) {
+            this.blocker.enableBlockingInSession(sess);
+            return;
+        }
+
+        try {
+            const { ElectronBlocker } = require('@ghostery/adblocker-electron');
+            const { adsAndTrackingLists } = require('@ghostery/adblocker');
+            ElectronBlocker.fromLists(fetch, adsAndTrackingLists, { loadCosmeticFilters: false, loadGenericCosmeticsFilters: false })
+            .then((blocker:any) => {
+                this.blocker = blocker;
+                // Si mientras se descargaban las listas el usuario lo desactivó, no lo activa.
+                if(this.features.adBlock) blocker.enableBlockingInSession(sess);
+            })
+            .catch((err:any) => {
+                console.error('AdBlock:', err)
+            })
+        } catch(err) {
+            console.error('AdBlock no disponible:', err)
+        }
+    }
+
+    /** Recarga la página para que el preload vuelva a leer los ajustes. */
+    public reloadPage() {
+        this.window.webContents.reload();
     }
 
     /**

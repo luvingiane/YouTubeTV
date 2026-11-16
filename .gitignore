@@ -13,4 +13,6 @@ package-lock.json
 *.map
 !renderers/main/injection.js
 !renderers/main/offline_banner.js
+!renderers/main/preload.js
+!renderers/main/gamepad.js
 !renderers/main/titleBar.js

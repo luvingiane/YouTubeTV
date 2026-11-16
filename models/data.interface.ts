@@ -31,6 +31,12 @@ export interface DataModel {
         name: string
     },
     background: boolean,
+    /** Bloquea anuncios y contenido patrocinado. */
+    adBlock: boolean,
+    /** Salta automáticamente los segmentos de SponsorBlock. */
+    sponsorBlock: boolean,
+    /** Abre la aplicación en pantalla completa. */
+    startFullscreen: boolean,
     userAgent: {
         useCustomUA: boolean,
         customUA: string

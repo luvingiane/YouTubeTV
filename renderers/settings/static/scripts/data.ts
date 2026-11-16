@@ -9,15 +9,21 @@ export class Data {
     private _keepSize: DataModel['keepSize'];
     private _background: DataModel['background'];
     private _DIAL: DataModel['DIAL'];
+    private _adBlock: DataModel['adBlock'];
+    private _sponsorBlock: DataModel['sponsorBlock'];
+    private _startFullscreen: DataModel['startFullscreen'];
 
     constructor(private _data: DataModel) {
 
-        const { resolution, keepSize, DIAL, userAgent, background } = _data;
+        const { resolution, keepSize, DIAL, userAgent, background, adBlock, sponsorBlock, startFullscreen } = _data;
         this._resolution = resolution;
         this._keepSize = new DataWatcher(keepSize, this.onSave.bind(this)) as unknown as DataModel['keepSize'];
         this._DIAL = new DataWatcher(DIAL, this.onSave.bind(this)) as unknown as DataModel['DIAL'];
         this._userAgent = new DataWatcher(userAgent, this.onSave.bind(this)) as unknown as DataModel['userAgent'];
         this._background = background;
+        this._adBlock = adBlock;
+        this._sponsorBlock = sponsorBlock;
+        this._startFullscreen = startFullscreen;
 
     }
 
@@ -27,7 +33,10 @@ export class Data {
             keepSize: this._keepSize,
             DIAL: this._DIAL,
             background: this._background,
-            userAgent: this._userAgent
+            userAgent: this._userAgent,
+            adBlock: this._adBlock,
+            sponsorBlock: this._sponsorBlock,
+            startFullscreen: this._startFullscreen
         };
     }
 

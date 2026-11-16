@@ -70,7 +70,10 @@ export class Persistence {
             keepSize: this.data.keepSize,
             DIAL: this.data.DIAL,
             background: this.data.background,
-            userAgent: this.data.userAgent
+            userAgent: this.data.userAgent,
+            adBlock: this.data.adBlock,
+            sponsorBlock: this.data.sponsorBlock,
+            startFullscreen: this.data.startFullscreen
         }
         const tostring = JSON.stringify(data);
         try {

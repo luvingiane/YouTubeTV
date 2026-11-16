@@ -36,6 +36,28 @@
                 "explanation_1": "Transmite contenido desde la aplicación de YouTube de tu teléfono.",
                 "explanation_2": "Nombre de este dispositivo:"
             },
+            "adBlock": {
+                "title": "Bloqueador de anuncios",
+                "sidebar_title": "AdBlock",
+                "explanation_1": "Bloquea anuncios y contenido patrocinado (anuncios de vídeo, inicio y búsqueda). Se aplica al instante."
+            },
+            "sponsorBlock": {
+                "title": "SponsorBlock",
+                "sidebar_title": "SponsorBlock",
+                "explanation_1": "Salta automáticamente patrocinios, autopromoción, intros/outros y otros segmentos marcados por la comunidad."
+            },
+            "fullscreen": {
+                "title": "Iniciar en pantalla completa",
+                "sidebar_title": "Pantalla completa",
+                "explanation_1": "YouTube TV se abre en pantalla completa. Puedes alternarla en cualquier momento con F11 o Alt+Enter."
+            },
+            "exit": {
+                "title": "Salir",
+                "sidebar_title": "Salir",
+                "explanation_1": "Cierra esta ventana o sal de YouTube TV.",
+                "close_settings": "Cerrar ajustes",
+                "quit_app": "Salir de YouTube TV"
+            },
             "background": {
                 "title": "Segundo plano",
                 "sidebar_title": "Segundo plano",

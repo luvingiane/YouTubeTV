@@ -201,7 +201,38 @@ export class UITextElement extends UIElement {
     }
 }
 
+/** Botón de acción simple (sin valor): ejecuta `action` al activarse. */
+export class UIButtonElement extends UIElement {
+
+    private action: () => void = () => {};
+
+    public init(label: string, action: () => void) {
+
+        this.action = action;
+
+        const div = document.createElement('div');
+        div.classList.add('optselector');
+
+        const labelEl = document.createElement('label');
+        const span = document.createElement('span');
+        span.textContent = label;
+        labelEl.appendChild(span);
+        div.appendChild(labelEl);
+
+        div.onclick = () => this.activate();
+
+        this.appendChild(div);
+        this.elements[0] = div;
+    }
+
+    public activate() {
+        this.action();
+    }
+}
+
 if(!customElements.get('ui-select-element'))
     customElements.define('ui-select-element', UISelectElement);
 if(!customElements.get('ui-text-element'))
     customElements.define('ui-text-element', UITextElement);
+if(!customElements.get('ui-button-element'))
+    customElements.define('ui-button-element', UIButtonElement);

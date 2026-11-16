@@ -15,6 +15,9 @@
         "name": ""
     },
     "background": false,
+    "adBlock": true,
+    "sponsorBlock": true,
+    "startFullscreen": true,
     "userAgent": {
         "useCustomUA": false,
         "customUA": ""

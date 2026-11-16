@@ -1,5 +1,6 @@
 import { UIElement, UISelectElement } from "./uielement2.js";
 import { UIRenderer } from "./uirenderer.js";
+import { ipc } from "./ipc.js";
 
 
 export class UIControls {
@@ -16,7 +17,8 @@ export class UIControls {
         ArrowRight: this.onKeyArrowRight.bind(this),
         ArrowLeft:  this.onKeyArrowLeft.bind(this),
         Enter:      this.onKeyEnter.bind(this),
-        Space:      this.onKeyEnter.bind(this)
+        Space:      this.onKeyEnter.bind(this),
+        Escape:     () => ipc.closeSettings()
     }
     
     private sidebarLength: number = 0;
@@ -38,7 +40,7 @@ export class UIControls {
 
     private listenMouseEvents() {
 
-        const sections = ['resolution', 'keepSize', 'dial', 'background'];
+        const sections = ['resolution', 'keepSize', 'dial', 'adBlock', 'sponsorBlock', 'fullscreen', 'exit', 'background'];
 
         sections.forEach(e => {
             (document.querySelector(`#${e}`) as HTMLDivElement).onclick = () => this.uiRenderer.focusSection(e as any)

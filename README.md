@@ -11,6 +11,27 @@ YouTube TV is an application that brings the TV version of YouTube to the deskto
 
 </div><br>
 
+## 🍴 About this fork
+
+This is an **unofficial fork** of [marcosrg9/YouTubeTV](https://github.com/marcosrg9/YouTubeTV) (MIT, all credit for the base application goes to its author). It adds features the upstream project deliberately does not include (see the *Note on Ad Blocking* at the end of this file), so **please do not report issues or open PRs about this fork upstream**.
+
+### What this fork adds
+
+- **Ad blocking**: network-level blocking of ad/tracker domains ([Ghostery adblocker](https://github.com/ghostery/adblocker)) plus removal of ad data (video ads and sponsored tiles/mastheads) from YouTube's own responses.
+- **SponsorBlock**: sponsors, self-promotion, interaction reminders, intros/outros, previews and off-topic music are skipped automatically, with an on-screen notice. Segments are fetched with SponsorBlock's privacy-preserving hash-prefix API (the video ID is never sent in full).
+- **Game controller support**: D-pad / left stick to navigate, <kbd>A</kbd> select, <kbd>B</kbd> back, <kbd>X</kbd> / <kbd>Start</kbd> play-pause, <kbd>LB</kbd> / <kbd>RB</kbd> seek ∓10 s, <kbd>Select</kbd> opens the settings (which can also be navigated with the controller). Works with both "standard" pads and pads that report the D-pad as an axis (e.g. 8BitDo). Bindings live in [`renderers/main/gamepad.js`](./renderers/main/gamepad.js).
+- **Full screen by default**, toggled with <kbd>F11</kbd> or <kbd>Alt</kbd> + <kbd>Enter</kbd>.
+- **Settings**: new toggles for AdBlock, SponsorBlock and "start in full screen", plus an **Exit** section (close settings / quit).
+- **Side menu**: *News*, *Gaming*, *Live*, *Sports* and *Movies* are removed, and an **Exit** entry is added after *Settings*.
+- **Single instance**: launching the app again (for example from a launcher such as ES-DE) brings the running window to the front instead of opening a second, logged-out copy on the same profile.
+- Italian translation (`it-IT`).
+
+Ad blocking and SponsorBlock can be disabled from the settings, or with the environment variables `YTV_NO_ADBLOCK=1` / `YTV_NO_SPONSORBLOCK=1`.
+
+### Downloads
+
+Prebuilt packages are published in this fork's [Releases](../../releases). Only a **Linux `.deb` (x86_64)** is provided; it was built and tested on Debian 13. Windows and macOS packages are not published, but the project builds the same way as upstream (`npm run compile` followed by the `build:*` scripts). Note that npm may need `--legacy-peer-deps` to install the Castlabs Electron build.
+
 ## 🌎 Languages
 
 This readme is available in the following languages:
@@ -88,6 +109,7 @@ YouTube TV is available for Linux, Windows, and macOS. You can find precompiled 
 - **Settings Window**: <kbd>Ctrl</kbd> + <kbd>S</kbd>
 - **Full Screen**: <kbd>Ctrl</kbd> + <kbd>F</kbd>.
 - **Toggle Cursor Visibility**: <kbd>Ctrl</kbd> + <kbd>A</kbd>.
+- **Full Screen (this fork)**: <kbd>F11</kbd> or <kbd>Alt</kbd> + <kbd>Enter</kbd>.
 
 **For Developers**:
 - **Main Window DevTools**: <kbd>Ctrl</kbd> + <kbd>D</kbd>.

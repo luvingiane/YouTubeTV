@@ -36,6 +36,28 @@
                 "explanation_1": "Cast content from the YouTube app on your phone.",
                 "explanation_2": "Device name:"
             },
+            "adBlock": {
+                "title": "Ad blocker",
+                "sidebar_title": "AdBlock",
+                "explanation_1": "Blocks ads and sponsored content (video ads, home and search). Applies immediately."
+            },
+            "sponsorBlock": {
+                "title": "SponsorBlock",
+                "sidebar_title": "SponsorBlock",
+                "explanation_1": "Automatically skips sponsors, self-promotion, intros/outros and other segments reported by the community."
+            },
+            "fullscreen": {
+                "title": "Start in full screen",
+                "sidebar_title": "Full screen",
+                "explanation_1": "YouTube TV opens in full screen. You can toggle it at any time with F11 or Alt+Enter."
+            },
+            "exit": {
+                "title": "Exit",
+                "sidebar_title": "Exit",
+                "explanation_1": "Close this window or quit YouTube TV.",
+                "close_settings": "Close settings",
+                "quit_app": "Quit YouTube TV"
+            },
             "background": {
                 "title": "Background mode",
                 "sidebar_title": "Background",

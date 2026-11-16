@@ -1,0 +1,85 @@
+{
+    "dialogs": {
+        "load_settings_corrupt": {
+            "title": "",
+            "message": "Errore di lettura della configurazione",
+            "detail": "Si è verificato un errore durante la lettura della configurazione di YouTube TV.\nPotrebbe dipendere da una scrittura errata o da una manomissione del file.\nVuoi ripristinare le impostazioni predefinite?",
+            "buttons": [
+                "Sì",
+                "No"
+            ],
+            "cancelId": 1
+        },
+        "update_available": {
+            "title": "",
+            "message": "Aggiornamento disponibile",
+            "detail": "È disponibile una nuova versione di YouTube TV.\nVuoi visitare il sito di download?",
+            "buttons": [
+                "Sì",
+                "Non chiedere più",
+                "No"
+            ],
+            "cancelId": 2
+        }
+    },
+    "renderer": {
+        "settings": {
+            "windowName": {
+                "name": "Impostazioni"
+            },
+            "resolution": {
+                "title": "Risoluzione massima",
+                "sidebar_title": "Risoluzione max",
+                "explanation_1": "Limita la risoluzione massima che questo dispositivo è in grado di mostrare."
+            },
+            "keepSize": {
+                "title": "Mantieni dimensione finestra",
+                "sidebar_title": "Mantieni dimensione",
+                "explanation_1": "YouTube TV si riaprirà come era stato chiuso, ripristinando dimensione, posizione sullo schermo e stato massimizzato."
+            },
+            "dial": {
+                "title": "Connettività",
+                "sidebar_title": "Connettività",
+                "explanation_1": "Trasmetti contenuti dall'app YouTube del tuo telefono.",
+                "explanation_2": "Nome del dispositivo:"
+            },
+            "adBlock": {
+                "title": "Blocco annunci",
+                "sidebar_title": "AdBlock",
+                "explanation_1": "Blocca annunci e contenuti sponsorizzati (pubblicità nei video, home e ricerca). Si applica subito."
+            },
+            "sponsorBlock": {
+                "title": "SponsorBlock",
+                "sidebar_title": "SponsorBlock",
+                "explanation_1": "Salta automaticamente sponsor, auto-promozione, intro/outro e altri segmenti segnalati dalla community."
+            },
+            "fullscreen": {
+                "title": "Avvia a schermo intero",
+                "sidebar_title": "Schermo intero",
+                "explanation_1": "YouTube TV si apre a schermo intero. Puoi attivarlo o disattivarlo in ogni momento con F11 o Alt+Invio."
+            },
+            "exit": {
+                "title": "Esci",
+                "sidebar_title": "Esci",
+                "explanation_1": "Chiudi questa finestra o esci da YouTube TV.",
+                "close_settings": "Chiudi impostazioni",
+                "quit_app": "Esci da YouTube TV"
+            },
+            "background": {
+                "title": "Modalità in background",
+                "sidebar_title": "Background",
+                "explanation_1": "YouTube TV resterà ridotto a icona e passerà a schermo intero quando un dispositivo si connette."
+            }
+        }
+    },
+    "utils": {
+        "boolean_enabled_disabled": {
+            "true": "Attivato",
+            "false": "Disattivato"
+        },
+        "yes_no_buttons": {
+            "yes": "Sì",
+            "no": "No"
+        }
+    }
+}

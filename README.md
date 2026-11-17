@@ -179,12 +179,4 @@ Additionally, you can add a custom name to recognize your device more easily whe
 - The settings renderer was reworked very quickly without considering the structure that might be implemented in the future. Therefore, adding new sections will be very complex. This is pending refactoring.
 
 ## ⚠️ Note on Ad Blocking
-~~I have occasionally received proposals to add an ad blocker.\
-When I started developing this application, my intention was to use it on a Raspberry Pi solely for personal enjoyment. However, I kept pushing changes to GitHub, mainly to have something else in my portfolio for my professional profile, in addition to sharing something with the world.
-
-The goal of this application is **for the user experience to be as faithful as possible to a solution that could be developed by Google**.\
-In version 3.0.0, an ad blocker was implemented solely to perform the dozens of tests I had to run without waiting for ads to finish, but I have disabled it in public builds, and it is only available in the development environment. Any developer who wishes to contribute will find a way to activate it.
-
-
-
-I understand the annoyance of ads—I am the first to say so and I am aware of it—but blocking them is not the purpose of this application. Therefore, from now on, I will reject all PRs and close proposals that involve ad blocking.~~ Done
+i did it, with sponsorblock too.
